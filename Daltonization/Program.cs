@@ -1,2 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using System.Drawing;
+
+using Daltonization.Core;
+
+
+var color = Color.FromArgb(255, 0, 0);
+
+var lms = LMS.FromColor(color);
+
+Console.WriteLine(lms.ToString());
