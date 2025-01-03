@@ -18,6 +18,8 @@ public class LMS
         this.S = S;
     }
 
+    public double[] Value => new double[] { L, M, S };
+
     public static LMS FromColor(Color color)
     {
         // normalize rgb
@@ -35,12 +37,7 @@ public class LMS
             { 0.0389, -0.0685, 1.0296 }
         };
 
-        var lms = new double[3];
-
-        for (int i = 0; i < lms.Length; i++)
-        {
-            lms[i] = bradford[i, 0] * rgb[0] + bradford[i, 1] * rgb[1] + bradford[i, 2] * rgb[2];
-        }
+        var lms = Matrix.Multiply(bradford, rgb);
 
         return new LMS(lms[0], lms[1], lms[2]);
     }
