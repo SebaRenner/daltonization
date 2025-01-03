@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Daltaonization.Core\Daltonization.Core.csproj" />
+    <ProjectReference Include="..\Daltonization.Core\Daltonization.Core.csproj" />
   </ItemGroup>
 
 </Project>
