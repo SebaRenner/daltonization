@@ -42,6 +42,27 @@ public class LMS
         return new LMS(lms[0], lms[1], lms[2]);
     }
 
+    public static LMS FromDoubleArr(double[] arr)
+    {
+        if (arr.Length != 3) throw new ArgumentException();
+        return new LMS(arr[0], arr[1], arr[2]);
+    }
+
+    public Color ToRGB()
+    {
+        var invBradford = new double[,]
+        {
+            { 0.9869929, -0.1470543, 0.1599627 },
+            { 0.4323053, 0.5183603, 0.0492912 },
+            { -0.0085287, 0.0400428, 0.9684867 }
+        };
+
+        var rgb = Matrix.Multiply(invBradford, Value);
+        var rgbClamped = rgb.Select(x => x*255).Select(x => (int)Math.Clamp(x, 0, 255)).ToArray();
+
+        return Color.FromArgb(rgbClamped[0], rgbClamped[1], rgbClamped[2]);
+    }
+
     public override string ToString()
     {
         return $"LMS({L}, {M}, {S})";

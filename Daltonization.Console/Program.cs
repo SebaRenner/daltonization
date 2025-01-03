@@ -29,5 +29,6 @@ for (int i = 0; i < error.Length; i++)
 }
 
 // Step 5: Convert back to RGB
+var correctedRgb = LMS.FromDoubleArr(correctedLms).ToRGB();
 
-Console.WriteLine(lms.ToString());
+Console.WriteLine(correctedRgb);
