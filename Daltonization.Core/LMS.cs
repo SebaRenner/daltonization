@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using SixLabors.ImageSharp.PixelFormats;
+using System.Drawing;
 
 namespace Daltonization.Core;
 
@@ -20,7 +21,7 @@ public class LMS
 
     public double[] Value => new double[] { L, M, S };
 
-    public static LMS FromColor(Color color)
+    public static LMS FromColor(Rgba32 color)
     {
         // normalize rgb
         var r = (double)color.R / 255;
@@ -48,7 +49,7 @@ public class LMS
         return new LMS(arr[0], arr[1], arr[2]);
     }
 
-    public Color ToRGB()
+    public Rgba32 ToRGB()
     {
         var invBradford = new double[,]
         {
@@ -58,9 +59,9 @@ public class LMS
         };
 
         var rgb = Matrix.Multiply(invBradford, Value);
-        var rgbClamped = rgb.Select(x => x*255).Select(x => (int)Math.Clamp(x, 0, 255)).ToArray();
+        var rgbClamped = rgb.Select(x => x*255).Select(x => (byte)Math.Clamp(x, 0, 255)).ToArray();
 
-        return Color.FromArgb(rgbClamped[0], rgbClamped[1], rgbClamped[2]);
+        return new Rgba32(rgbClamped[0], rgbClamped[1], rgbClamped[2]);
     }
 
     public override string ToString()

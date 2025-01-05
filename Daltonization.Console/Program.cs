@@ -1,15 +1,17 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
+
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.PixelFormats;
 
 using Daltonization.Core;
 
 var filepath = "../../../Ishihara.jpg";
-var bitmap = new Bitmap(filepath);
+var image = Image.Load<Rgba32>(filepath);
 
-var correctedImage = FrameProcessor.DaltonizeFrame(bitmap, ColorBlindnessType.Protanopia);
+var correctedImage = FrameProcessor.DaltonizeFrame(image, ColorBlindnessType.Protanopia);
 
-correctedImage.Save("daltonized_image.jpg", ImageFormat.Jpeg);
+correctedImage.Save("daltonized_image.jpg", new JpegEncoder());
 
 Console.WriteLine("Daltonization finished");
 

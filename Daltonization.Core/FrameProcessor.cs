@@ -1,18 +1,19 @@
-﻿using System.Drawing;
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Daltonization.Core;
 
 public static class FrameProcessor
 {
-    public static Bitmap DaltonizeFrame(Bitmap original, ColorBlindnessType colorBlindnessType)
+    public static Image<Rgba32> DaltonizeFrame(Image<Rgba32> original, ColorBlindnessType colorBlindnessType)
     {
-        var daltonizedImage = new Bitmap(original.Width, original.Height);
+        var daltonizedImage = new Image<Rgba32>(original.Width, original.Height);
 
         for (int y = 0; y < original.Height; y++)
         {
             for (int x = 0; x < original.Width; x++)
             {
-                Color pixel = original.GetPixel(x, y);
+                var pixel = original[x, y];
 
                 // Step 1: Convert RGB to LMS
                 var lms = LMS.FromColor(pixel);
@@ -39,7 +40,7 @@ public static class FrameProcessor
                 // Step 5: Convert back to RGB
                 var correctedRgb = LMS.FromDoubleArr(correctedLms).ToRGB();
 
-                daltonizedImage.SetPixel(x, y, correctedRgb);
+                daltonizedImage[x, y] = correctedRgb;
             }
         }
 
