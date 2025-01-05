@@ -9,7 +9,7 @@ using Daltonization.Core;
 var filepath = "../../../Ishihara.jpg";
 var image = Image.Load<Rgba32>(filepath);
 
-var correctedImage = FrameProcessor.DaltonizeFrame(image, ColorBlindnessType.Protanopia);
+var correctedImage = ImageProcessor.DaltonizeImage(image, ColorBlindnessType.Protanopia);
 
 correctedImage.Save("daltonized_image.jpg", new JpegEncoder());
 

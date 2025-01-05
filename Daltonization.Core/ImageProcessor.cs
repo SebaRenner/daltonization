@@ -3,9 +3,9 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace Daltonization.Core;
 
-public static class FrameProcessor
+public static class ImageProcessor
 {
-    public static Image<Rgba32> DaltonizeFrame(Image<Rgba32> original, ColorBlindnessType colorBlindnessType)
+    public static Image<Rgba32> DaltonizeImage(Image<Rgba32> original, ColorBlindnessType colorBlindnessType)
     {
         var daltonizedImage = new Image<Rgba32>(original.Width, original.Height);
 
