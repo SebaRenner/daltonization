@@ -11,7 +11,7 @@ public static class Simulator
         return lmsSim;
     }
 
-    public static double[,] GetMatrixByType(ColorBlindnessType type)
+    private static double[,] GetMatrixByType(ColorBlindnessType type)
     {
         return type switch
         {
