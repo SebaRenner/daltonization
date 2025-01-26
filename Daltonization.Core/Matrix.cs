@@ -2,18 +2,21 @@
 
 public static class Matrix
 {
-    public static double[] Multiply(double[,] matrixA, double[] vector)
+    public static double[] Multiply(double[,] matrix, double[] vector)
     {
-        // TODO: Add invarient check matrix rows match vector length
+        if (matrix.GetLength(1) != vector.Length)
+        {
+            throw new ArgumentException("Matrix columns must match vector length.");
+        }
 
-        var result = new double[matrixA.GetLength(0)];
+        var result = new double[matrix.GetLength(0)];
 
         for (int i = 0; i < result.Length; i++)
         {
             double sum = 0;
             for (int j = 0; j < vector.Length; j++)
             {
-                sum += matrixA[i, j] * vector[j];
+                sum += matrix[i, j] * vector[j];
             }
             result[i] = sum;
         }

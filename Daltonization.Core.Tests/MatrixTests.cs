@@ -21,4 +21,23 @@ public class MatrixTests
         // Assert
         Assert.Equal(expectedResult, result);
     }
+
+    [Fact]
+    public void Test_MatrixMultiply_DimensionMismatch()
+    {
+        // Arrange
+        var matrix = new double[,] {
+            { 6 , 4 },
+            { -1, 3 },
+            { -2, 3 }
+        };
+
+        var vector = new double[] { 4, -2, 1 };
+
+        // Act
+        var act = () => Matrix.Multiply(matrix, vector);
+
+        // Assert
+        Assert.Throws<ArgumentException>(act);
+    }
 }
