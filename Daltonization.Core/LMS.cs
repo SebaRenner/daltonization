@@ -1,16 +1,14 @@
 ﻿using SixLabors.ImageSharp.PixelFormats;
-using System.Drawing;
 
 namespace Daltonization.Core;
 
-// TODO: Think about changing to struct
-public class LMS
+public struct LMS
 {
-    public double L { get; }
+    private double L { get; }
 
-    public double M { get; }
+    private double M { get; }
 
-    public double S { get; }
+    private double S { get; }
 
     private LMS(double L, double M, double S)
     {
@@ -30,15 +28,7 @@ public class LMS
 
         var rgb = new double[] { r, g, b };
 
-        // bradford transformation matrix
-        var bradford = new double[,]
-        {
-            { 0.8951, 0.2664, -0.1614 },
-            { -0.7502, 1.7135, 0.0367 },
-            { 0.0389, -0.0685, 1.0296 }
-        };
-
-        var lms = Matrix.Multiply(bradford, rgb);
+        var lms = Matrix.Multiply(TransformationMatrices.Bradford, rgb);
 
         return new LMS(lms[0], lms[1], lms[2]);
     }
@@ -51,14 +41,7 @@ public class LMS
 
     public Rgba32 ToRGB()
     {
-        var invBradford = new double[,]
-        {
-            { 0.9869929, -0.1470543, 0.1599627 },
-            { 0.4323053, 0.5183603, 0.0492912 },
-            { -0.0085287, 0.0400428, 0.9684867 }
-        };
-
-        var rgb = Matrix.Multiply(invBradford, Value);
+        var rgb = Matrix.Multiply(TransformationMatrices.InverseBradford, Value);
         var rgbClamped = rgb.Select(x => x*255).Select(x => (byte)Math.Clamp(x, 0, 255)).ToArray();
 
         return new Rgba32(rgbClamped[0], rgbClamped[1], rgbClamped[2]);
