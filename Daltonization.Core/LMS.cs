@@ -26,6 +26,11 @@ public struct LMS
         var g = (double)color.G / 255;
         var b = (double)color.B / 255;
 
+        // gamma correction
+        r = GammaCorrection.Expand(r);
+        g = GammaCorrection.Expand(g);
+        b = GammaCorrection.Expand(b);
+
         var rgb = new double[] { r, g, b };
 
         var lms = Matrix.Multiply(TransformationMatrices.Bradford, rgb);
@@ -42,7 +47,9 @@ public struct LMS
     public Rgba32 ToRGB()
     {
         var rgb = Matrix.Multiply(TransformationMatrices.InverseBradford, Value);
-        var rgbClamped = rgb.Select(x => x*255).Select(x => (byte)Math.Clamp(x, 0, 255)).ToArray();
+        var rgbClamped = rgb.Select(x => GammaCorrection.Compress(x) * 255)
+                            .Select(x => (byte)Math.Clamp(x, 0, 255))
+                            .ToArray();
 
         return new Rgba32(rgbClamped[0], rgbClamped[1], rgbClamped[2]);
     }
