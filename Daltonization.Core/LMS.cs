@@ -46,7 +46,8 @@ public struct LMS
 
     public Rgba32 ToRGB()
     {
-        var rgb = Matrix.Multiply(TransformationMatrices.InverseBradford, Value);
+        var rgb = Matrix.Multiply(TransformationMatrices.BradfordInverse, Value);
+
         var rgbClamped = rgb.Select(x => GammaCorrection.Compress(x) * 255)
                             .Select(x => (byte)Math.Clamp(x, 0, 255))
                             .ToArray();
